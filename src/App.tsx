@@ -133,7 +133,7 @@ const FormatParagraphs = ({ text }: { text: string }) => {
   return (
     <>
       {text.split('\n\n').map((paragraph, idx) => (
-        <p key={idx} className="mb-4 leading-relaxed text-lg tracking-wide text-white/85">
+        <p key={idx} className="mb-4 leading-relaxed text-base md:text-lg tracking-wide text-white/85">
           {paragraph}
         </p>
       ))}
@@ -146,11 +146,11 @@ const Accordion = ({ title, text, isOpen, onClick }: { title: string, text: stri
     <div className="mb-4 rounded-lg overflow-hidden border border-[#d4af37]/30 bg-[#0a1122]">
       <button
         onClick={onClick}
-        className="w-full text-left px-6 py-4 bg-[#101931] hover:bg-[#16213e] transition-colors flex justify-between items-center group cursor-pointer"
+        className="w-full text-left px-4 py-3 md:px-6 md:py-4 bg-[#101931] hover:bg-[#16213e] transition-colors flex justify-between items-center group cursor-pointer"
       >
-        <span className="font-serif text-lg text-[#d4af37] group-hover:text-glow transition-all">{title}</span>
+        <span className="font-serif text-base md:text-lg text-[#d4af37] group-hover:text-glow transition-all">{title}</span>
         <svg
-          className={`w-5 h-5 text-[#d4af37] transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-[#d4af37] transform transition-transform duration-300 shrink-0 ml-4 ${isOpen ? 'rotate-180' : ''}`}
           fill="none" viewBox="0 0 24 24" stroke="currentColor"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -162,7 +162,7 @@ const Accordion = ({ title, text, isOpen, onClick }: { title: string, text: stri
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="px-6 py-4 border-l-4 border-[#d4af37] bg-opacity-50"
+            className="px-4 py-3 md:px-6 md:py-4 border-l-2 md:border-l-4 border-[#d4af37] bg-opacity-50"
           >
             <FormatParagraphs text={text} />
           </motion.div>
@@ -177,16 +177,22 @@ const SectionCard = ({ section, id }: { section: any, id: string }) => {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
 
   return (
-    <section id={id} className="mb-16 relative z-10 scroll-mt-24">
+    <section id={id} className="mb-12 md:mb-16 relative z-10 scroll-mt-24">
       <BackgroundGeometry />
-      <div className="relative bg-[#0a1122] rounded-xl border border-[#d4af37]/40 p-8 shadow-2xl overflow-hidden backdrop-blur-sm">
-        <div className="flex justify-between items-start mb-6">
-          <h2 className="text-3xl font-serif text-[#d4af37] text-glow">{section.title}</h2>
+      <div className="relative bg-[#0a1122] rounded-xl border border-[#d4af37]/40 p-5 md:p-8 shadow-2xl overflow-hidden backdrop-blur-sm">
+        <div className="flex justify-between items-start mb-6 gap-4">
+          <h2 className="text-2xl md:text-3xl font-serif text-[#d4af37] text-glow flex-1">{section.title}</h2>
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-[#d4af37]/70 hover:text-[#d4af37] transition-colors p-2"
+            className="flex-shrink-0 text-[#d4af37]/70 hover:text-[#d4af37] transition-colors p-2 rounded-full bg-[#101931]/50 hover:bg-[#101931]"
+            aria-label={isExpanded ? 'Colapsar seção' : 'Expandir seção'}
           >
-            {isExpanded ? 'Colapsar' : 'Expandir'}
+            <svg
+              className={`w-6 h-6 transform transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+            </svg>
           </button>
         </div>
 
@@ -228,15 +234,21 @@ const RoadmapCard = ({ phase, isActive, onClick }: { phase: any, isActive: boole
     <div className="mb-6">
       <button
         onClick={onClick}
-        className={`w-full text-left p-6 rounded-lg border transition-all ${isActive ? 'border-[#d4af37] bg-[#101931] shadow-[0_0_15px_rgba(212,175,55,0.2)]' : 'border-[#d4af37]/30 bg-[#0a1122] hover:border-[#d4af37]/60'}`}
+        className={`w-full text-left p-4 md:p-6 rounded-lg border transition-all ${isActive ? 'border-[#d4af37] bg-[#101931] shadow-[0_0_15px_rgba(212,175,55,0.2)]' : 'border-[#d4af37]/30 bg-[#0a1122] hover:border-[#d4af37]/60'}`}
       >
         <div className="flex items-center gap-4">
-          <div className={`px-3 py-1 rounded text-sm font-bold font-serif ${isActive ? 'bg-[#d4af37] text-[#02050f]' : 'bg-[#101931] text-[#d4af37] border border-[#d4af37]/50'}`}>
+          <div className={`px-2 py-1 md:px-3 md:py-1 rounded text-xs md:text-sm font-bold font-serif ${isActive ? 'bg-[#d4af37] text-[#02050f]' : 'bg-[#101931] text-[#d4af37] border border-[#d4af37]/50'}`}>
             Fase {phase.phase}
           </div>
-          <h3 className={`text-xl font-serif transition-colors ${isActive ? 'text-[#d4af37] text-glow' : 'text-[#d4af37]/80'}`}>
+          <h3 className={`text-lg md:text-xl font-serif transition-colors pr-2 ${isActive ? 'text-[#d4af37] text-glow' : 'text-[#d4af37]/80'}`}>
             {phase.title}
           </h3>
+          <svg
+            className={`w-5 h-5 ml-auto shrink-0 text-[#d4af37] transform transition-transform duration-300 ${isActive ? 'rotate-180' : 'rotate-90'}`}
+            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
         </div>
       </button>
 
@@ -246,7 +258,7 @@ const RoadmapCard = ({ phase, isActive, onClick }: { phase: any, isActive: boole
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="mt-4 p-6 ml-4 border-l-4 border-[#d4af37] bg-[#0a1122]/80 rounded-r-lg"
+            className="mt-4 p-4 md:p-6 ml-2 md:ml-4 border-l-2 md:border-l-4 border-[#d4af37] bg-[#0a1122]/80 rounded-r-lg"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="flex items-start gap-3">
@@ -334,7 +346,7 @@ export default function App() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12 flex relative">
         
         {/* Sidebar Navigation */}
         <aside className="w-64 shrink-0 hidden md:block pt-32">
@@ -371,17 +383,17 @@ export default function App() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 max-w-4xl pt-16 md:pt-32 pb-32">
-          <div className="mb-24 text-center md:text-left">
+        <main className="flex-1 w-full max-w-4xl pt-10 md:pt-32 pb-24 md:pb-32 mx-auto md:mx-0">
+          <div className="mb-16 md:mb-24 text-center md:text-left">
             <div className="flex md:hidden justify-center mb-8">
               <TemploLogo className="w-20 h-20 opacity-80" />
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-[#d4af37] text-glow leading-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-[#d4af37] text-glow leading-tight sm:leading-tight md:leading-tight mb-4 md:mb-6">
               Plano de posicionamento
-              <br />
-              <span className="text-3xl md:text-4xl opacity-80">Versão 2.0</span>
+              <br className="hidden sm:block" />
+              <span className="text-2xl sm:text-3xl md:text-4xl opacity-80 block mt-2 sm:mt-0">Versão 2.0</span>
             </h1>
-            <p className="text-[#00ffff]/60 uppercase tracking-[0.3em] font-serif text-sm">Templo Escola Shiram</p>
+            <p className="text-[#00ffff]/60 uppercase tracking-[0.2em] sm:tracking-[0.3em] font-serif text-xs sm:text-sm">Templo Escola Shiram</p>
           </div>
 
           <div className="space-y-0">
@@ -390,14 +402,14 @@ export default function App() {
             ))}
 
             {/* Roadmap Section */}
-            <section id="roadmap" className="mb-16 relative z-10 scroll-mt-24">
+            <section id="roadmap" className="mb-12 md:mb-16 relative z-10 scroll-mt-24">
               <BackgroundGeometry />
-              <div className="relative bg-[#0a1122] rounded-xl border border-[#d4af37]/40 p-8 shadow-2xl backdrop-blur-sm">
-                 <div className="flex justify-between items-start mb-8">
-                  <h2 className="text-3xl font-serif text-[#d4af37] text-glow">Roadmap de Fases</h2>
+              <div className="relative bg-[#0a1122] rounded-xl border border-[#d4af37]/40 p-5 md:p-8 shadow-2xl backdrop-blur-sm">
+                 <div className="flex justify-between items-start mb-6 md:mb-8">
+                  <h2 className="text-2xl md:text-3xl font-serif text-[#d4af37] text-glow">Roadmap de Fases</h2>
                 </div>
-                <div className="mb-8 border-l-4 border-[#00ffff]/30 pl-6 bg-[#101931]/50 p-4 rounded-r">
-                   <p className="text-white/85 text-lg">
+                <div className="mb-6 md:mb-8 border-l-2 md:border-l-4 border-[#00ffff]/30 pl-4 md:pl-6 bg-[#101931]/50 p-3 md:p-4 rounded-r">
+                   <p className="text-white/85 text-base md:text-lg">
                     Este roadmap consolida todas as iniciativas mapeadas ao longo das cinco seções, organizadas em ciclos com objetivos claros e critérios de avanço entre fases.
                    </p>
                 </div>
